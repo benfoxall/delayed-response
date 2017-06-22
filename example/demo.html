@@ -9,5 +9,14 @@
     <img src="demo.png" alt="">
     <script type="text/javascript" src="demo.js"></script>
     <link rel="stylesheet" href="demo.css">
+    <!--
+    navigator.serviceWorker.register(
+      '/delayed-response.js', {scope: location.pathname}
+    ).then(registration => {
+      console.log("cool!")
+    }).catch(error => {
+     console.log("nope", error)
+    })
+    --->
   </body>
 </html>
