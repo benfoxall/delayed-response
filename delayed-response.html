@@ -8,10 +8,57 @@
     </style>
   </head>
   <body>
-    <h1>Delayed Response</h1>
+    <h1>Delayed Response <span id="time"></span></h1>
+    <ul id="responses">
+    </ul>
     <script type="text/javascript" src="deps/localforage.min.js"></script>
     <script type="text/javascript">
-      // localforage.getItem
+
+      localforage.config({
+        name        : 'delayed-response',
+        // storeName   : 'scope-' + self.registration.scope
+      })
+
+      localforage.keys()
+        .then(keys => {
+
+          keys.forEach(key => {
+            if(!key.match(/^request:/)) return
+
+            const li = document.createElement('li')
+
+            responses.appendChild(li)
+            li.innerText = key.replace(/^request:/, '')
+
+            const input = document.createElement('input')
+            input.type = 'range'
+            input.value = 0
+            input.min = 0
+            input.max = 500
+            li.appendChild(input)
+
+            input.addEventListener('change', () => {
+              console.log(input.value)
+              localforage.setItem(key.replace(/^request:/, 'delay:'), input.value)
+                .then(() => {
+                  console.log("updated")
+                  localStorage.setItem('reload', Math.random())
+                })
+            })
+          })
+
+          console.log(keys)
+        })
+
+
+        window.addEventListener('storage', function(e) {
+          // todo - check key matches
+          if(e.key == 'loaded') {
+            time.innerText = parseFloat(e.newValue).toFixed(2)
+            // console.log(e.newValue)
+          }
+        })
+
     </script>
   </body>
 </html>

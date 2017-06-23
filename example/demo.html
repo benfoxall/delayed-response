@@ -18,5 +18,28 @@
      console.log("nope", error)
     })
     --->
+    <script type="text/javascript">
+      // super hacky/awesome - this could be injected in the SW
+      window.addEventListener('storage', function(e) {
+        // todo - check key matches
+        if(e.key == 'reload') location.reload()
+      })
+
+
+      // TODO - better metric than this
+      document.addEventListener('DOMContentLoaded', function(event) {
+
+        // console.log("loaded", window.performance.now())
+        localStorage.setItem('loaded', window.performance.now())
+
+        // doing this through the SW could be nicer, but this'll do for now
+        // fetch('/COMPLETE', {
+        //   method: 'post',
+        //   body: '12345'
+        // })
+      })
+
+      // navigator.serviceWorker.getRegistration().then(v => console.log(v))
+    </script>
   </body>
 </html>
